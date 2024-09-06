@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<header>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</header>
+<script src="script.js"></script>
+
+<body id="body" class="flex background">
+  <div class="flex dashboard">
+    <div class="flex status">
+      <div class="flex status-line">
+        <p class="status-key">vehicle:</p>
+        <div class="status-light" id="vehicleStatus"></div>
+      </div>
+      <div class="flex status-line">
+        <p class="status-key">gamepad:</p>
+        <div class="status-light" id="gamepadStatus"></div>
+      </div>
+      <div class="flex status-line">
+        <p class="status-key">pressed:</p>
+        <p class="status-buttons" id="buttonStatus"></p>
+      </div>
+    </div>
+    <div style="font-weight: bold;line-height: 24px;" class="flex messages">
+      <div class="flex message-line">
+        <p class="message-key">Self-Driving:</p>
+        <p class="message" id="message-selfdrive"></p>
+      </div>
+      <div class="flex message-line">
+        <p class="message-key">Leader:</p>
+        <p class="message" id="message-leader"></p>
+      </div>
+      <div class="flex message-line">
+        <p class="message-key">Speed:</p>
+        <p class="message" id="message-speed"></p>
+      </div>
+      <div class="flex message-line">
+        <p class="message-key">Steering:</p>
+        <p class="message" id="message-steering"></p>
+      </div>
+    </div>
+  </div>
+  <div class="flex controller">
+    <div class="inner-controller">
+      <div class="flex buttons left">
+        <button id="left" class="flex direction-button"
+          onmousedown=onMouseOrTouch(id,true)
+          onmouseup=onMouseOrTouch(id,false)
+          ontouchstart=onMouseOrTouch(id,true)
+          ontouchend=onMouseOrTouch(id,false)
+        >
+          &#9664;
+        </button>
+        <button id="right" class="flex direction-button"
+          onmousedown=onMouseOrTouch(id,true)
+          onmouseup=onMouseOrTouch(id,false)
+          ontouchstart=onMouseOrTouch(id,true)
+          ontouchend=onMouseOrTouch(id,false)
+        >
+          &#9654;
+        </button>
+      </div>
+      <div class="flex buttons center">
+        <button id="autonomous-switch" class="flex autonomous-switch" onclick=setAutonomousMenu(true)>
+          Go Autonomous
+        </button>
+        <button id="fullscreen" class="fullscreen-button" onclick=toggleFulscreen()>
+        </button>
+      </div>
+      <div class="flex buttons right">
+        <button id="up" class="flex direction-button"
+          onmousedown=onMouseOrTouch(id,true)
+          onmouseup=onMouseOrTouch(id,false)
+          ontouchstart=onMouseOrTouch(id,true)
+          ontouchend=onMouseOrTouch(id,false)
+        >
+          &#9650;
+        </button>
+        <button id="down" class="flex direction-button"
+          onmousedown=onMouseOrTouch(id,true)
+          onmouseup=onMouseOrTouch(id,false)
+          ontouchstart=onMouseOrTouch(id,true)
+          ontouchend=onMouseOrTouch(id,false)
+        >
+          &#9660;
+        </button>
+      </div>
+    </div>
+    <div id="autonomous-menu" class="flex autonomous-menu">
+      <div class="flex autonomous-left">
+        <div class="flex autonomous-upper">
+          <button id="emergency" class="flex emergency-button" onclick="autonomousRequest('emergency')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 24 24" fill="none"
+              stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <p class="emergency-text">emergency</p>
+          </button>
+          <button id="stop" class="flex stop-button" onclick="autonomousRequest('stop')">
+            stop
+          </button>
+        </div>
+        <div class="flex autonomous-lower">
+          <button id="fullscreen2" class="fullscreen-button" onclick=toggleFulscreen()>
+          </button>
+          <button id="controlled-switch" class="autonomous-switch" onclick=setAutonomousMenu(false)>
+            Go Controlled
+          </button>
+        </div>
+      </div>
+      <div class="flex autonomous-right">
+        <button id="lead" class="flex selfdrive-button" onclick="autonomousRequest('self-drive')">
+          self-drive
+        </button>
+        <p>OR</p>
+        <div class="flex autonomous-follow">
+          <input id="id-input" type="number" placeholder="leader ID" />
+          <button id="follow" class="flex follow-button" onclick="autonomousRequest('follow')">
+            follow
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
