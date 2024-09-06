@@ -44,11 +44,11 @@ struct state_t {
 };
 
 struct period_t {
-  unsigned long current;         // período atual
-  unsigned long next;            // próximo período
-  unsigned long min;             // período mínimo (vel máx) - usado para aceleração 
-  unsigned long max;             // período máximp (vel mín) - usado para aceleração
-  unsigned long delta;           // razão com que o o período oscila entre máximo e mínimo
+  unsigned long current;         // current period between motor steps
+  unsigned long next;            // next absolute instant the motor will take a step
+  unsigned long min;             // min period, used for acceleration 
+  unsigned long max;             // max period, used for acceleration
+  unsigned long delta;           // ratio of which the period oscilates between min and max
 };
 
 struct count_t {
@@ -72,7 +72,7 @@ struct unipolar_t {
   target_t target;
 };
 
-struct stepper_t {
+struct nema_t {
   int pins[2];
   step_t step;
   target_t target;
@@ -82,16 +82,6 @@ struct uartInput_t {
   char buffer[BUF_SIZE];
   bool hasMessage;
   int charCount;   
-};
-
-struct ultrasonicSensor_t {
-  int trigPin;
-  int echoPin;
-  int distance;
-  int r;
-  int readings[SAMPLES];
-  unsigned long period;
-  unsigned long next;
 };
 
 #endif

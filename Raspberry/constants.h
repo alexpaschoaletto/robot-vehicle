@@ -19,11 +19,6 @@
 #define TRAJECTORY_MANEUVERS 12
 #define NOTHING { 0, 0, 0 }
 
-#define STRAIGHT_PATH {                                     \
-  { .period = 600, .steering = 0, .howLong = 6000000 },     \
-  { .period = -600, .steering = 0, .howLong = 6000000 }     \
-}
-
 #define CURVY_PATH {                                        \
   { .period = 600, .steering = 0, .howLong = 3000000 },     \
   { .period = 0, .steering = 0, .howLong = 300000 },        \
@@ -54,7 +49,7 @@
   NOTHING                                                   \
 }
 
-#define AUTONOMOUS_PATH STRAIGHT_PATH
+#define AUTONOMOUS_PATH CURVY_PATH
 
 #define ENABLED LOW
 #define DISABLED HIGH

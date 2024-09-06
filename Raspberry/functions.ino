@@ -60,8 +60,6 @@ void ioSetup(){
   pinMode(M0, OUTPUT);
   pinMode(M1, OUTPUT);
   pinMode(M2, OUTPUT);
-  pinMode(ultrasonic.trigPin, OUTPUT);
-  pinMode(ultrasonic.echoPin, OUTPUT);
 }
 
 
@@ -211,13 +209,6 @@ void autonomousLoop(){
   action->index = (action->index + 1) % TRAJECTORY_MANEUVERS;
   action->next = now + action->maneuvers[action->index].howLong;
   command(&(action->maneuvers[action->index]));
-}
-
-
-void sensorLoop(){
-  unsigned long now = micros();
-  if(now < ultrasonic.next) return;
-  update(&ultrasonic);
 }
 
 

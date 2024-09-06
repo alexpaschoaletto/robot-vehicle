@@ -7,8 +7,8 @@ This document lists the main materials I used to build the robot vehicle.
 - 500g PETG (approx.)
 - 4x rubber seal for PVC pipes (d=50mm)
 
-Obs.: All the vehicle structure parts were designed to be 3D printed with no need for supports and
-targeting M3 bolts everywhere. There is no mandatory choice of material - PLA, although not
+Obs.: All the vehicle structure parts were designed to be 3D printed with no need for supports
+and targeting M3 bolts everywhere. There is no mandatory choice of material - PLA, although not
 recommended for mechanical usage, was tested on this project and worked out successfuly.
 
 However, my suggestion is to use **PETG** wherever possible, specially on more demanded parts
@@ -63,3 +63,20 @@ As for the wiring it's hard to specify, as it will be subjective to each one's d
 a safe bet would definitely be having at least 10x of each type (MM, MF, FF). **DON'T** try to
 use jumpers between the power bank and the 5-12V converter, as it runs a decent amount of
 current and will likely **MELT** the jumpers.
+
+## PegasoBoard V1.0
+
+![pegaso-board](assets/pegaso-board.png)
+
+The PegasoBoard is a carrier board for most of the aforementioned components and was originally
+designed by me to be used in a [robot arm](https://bdm.unb.br/handle/10483/34423). That's why it
+has 6 slots for stepper drivers a 3 slots for servo motors, with voltage regulators for each
+servo. I had a few spare boards with me and that's why they are used in the project, saving a
+lot of trouble with board connections on a generic PCB or a clumsy protoboard contraption.
+
+The files for the board are saved elsewhere and are intended to be made available soon for anyone
+wishing to order on JLCPCB or similar services. All resistor values and components are printed
+on the board and all components are meant to go on one side only.
+
+Future work on this project involves designing a board specific for this project, which will be
+presumably way smaller as most components of the PegasoBoard are not needed here.

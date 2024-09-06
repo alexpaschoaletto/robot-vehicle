@@ -88,6 +88,9 @@ void copy(char origin[], char destination[]){
   }
 }
 
+void copy(const char origin[], char destination[]){
+  copy((char *) origin, destination);
+}
 
 void copy(String origin, char destination[]){
   copy(origin.c_str(), destination);

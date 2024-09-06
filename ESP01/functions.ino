@@ -25,6 +25,25 @@ void prompt(String m){
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+void updateIP(){
+  String ipString = WiFi.localIP().toString();
+  copy((char *)ipString.c_str(), wifi.ip);
+}
+
+void setStaticIpFromID(char id[]){
+  String oldIP = WiFi.localIP().toString();
+  char newIP[BUF_SIZE/2];
+  
+  copyUntil((char *) oldIP.c_str(), newIP, '.', 3);
+  append(id, newIP); 
+
+  IPAddress ip;                                      
+  ip.fromString(newIP);                          
+  WiFi.config(ip, WiFi.gatewayIP(), WiFi.subnetMask());
+}
+
+
 void requestWifi(){
   prompt(MSG_REQUEST_WIFI);
   copy(uartInput.buffer, wifi.ssid);
@@ -35,30 +54,15 @@ void requestWifi(){
   clear(&uartInput);
 
   while(!uartCheck());
-  copy(uartInput.buffer, wifi.ip);
+  char id[BUF_SIZE];
+  copy(uartInput.buffer, id);
+  setStaticIpFromID(id);
+  updateIP();
   clear(&uartInput);
 }
 
 
-void updateIP(){
-  String ipString = WiFi.localIP().toString();
-  copy((char *)ipString.c_str(), wifi.ip);
-}
-
-void setStaticIpFromHost(char host[]){
-  String oldIP = WiFi.localIP().toString();
-  char newIP[BUF_SIZE/2];
-  
-  copyUntil((char *) oldIP.c_str(), newIP, '.', 3);                          // copia até o 3° caractere '.' (ou seja, todo o IP original menos o host)
-  append(host, newIP);
-  
-  IPAddress ip;                                      
-  ip.fromString(newIP);                          
-  WiFi.config(ip, WiFi.gatewayIP(), WiFi.subnetMask());
-}
-
-
-void requestData(){
+void requestWifiData(){
   if(!SKIP_WIFI_REQUEST){
     clear(wifi.ssid);
     clear(wifi.password);
@@ -99,11 +103,11 @@ void wifiSetup(bool isReconnecting){
     delay(1000);
     if(WiFi.status() == WL_CONNECTED) break;
   }
-  if(equals(wifi.ip, WIFI_DHCP)){
+  if(equals(wifi.ip, "DHCP")){
     wifi.dhcp = true;
     updateIP();
   } else {
-    setStaticIpFromHost((char *) ID);
+    setStaticIpFromID((char *) ID);
     updateIP();
   }
   String connectionMsg = MSG_CONNECTION_OK + String(" ") + String(wifi.ip);
@@ -125,7 +129,7 @@ void wifiLoop(){
     notify("disconnected");
     if(wifi.dhcp){
       clear(wifi.ip);
-      copy(WIFI_DHCP, wifi.ip);
+      copy("DHCP", wifi.ip);
     }
     wifiSetup(true);
     server.begin();

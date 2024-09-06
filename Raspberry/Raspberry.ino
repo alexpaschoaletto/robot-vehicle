@@ -1,12 +1,23 @@
 //use earle philhower III's Raspberry Pi Pico board support for this
+
 #include <ArduinoJson.h>
 #include "pegasoboard.h"
 #include "constants.h"
 #include "types.h"
-#include "ultrasonic.h"
 
-uartInput_t usbInput = {"", false, 0};                                          
-uartInput_t uartInput = {"", false, 0};
+
+uartInput_t usbInput = {
+  .buffer = "",
+  .hasMessage = false,
+  .charCount = 0
+};
+
+
+uartInput_t uartInput = {
+  .buffer = "",
+  .hasMessage = false,
+  .charCount = 0
+};
 
 
 unipolar_t steering = {
@@ -35,7 +46,7 @@ unipolar_t steering = {
 };
 
 
-stepper_t engine = {
+nema_t engine = {
   .pins = {STEP_BASE, DIR_BASE},
   .step = {
     .direction = 0,
@@ -49,16 +60,6 @@ stepper_t engine = {
 };
 
 
-ultrasonicSensor_t ultrasonic = {
-  .trigPin = SCK,
-  .echoPin = MISO,
-  .distance = 0,
-  .r = 0,
-  .readings = {},
-  .period = 200000,
-  .next = 0
-};
-
 state_t state = {
   .isSelfDriving = false,
   .isEmergency = false,
@@ -67,18 +68,26 @@ state_t state = {
   .steering = 0
 };
 
+
 trajectory_t trajectory = {
   .maneuvers = AUTONOMOUS_PATH, 
   .index = 0, .next = 0
 };
+
 
 trajectory_t emergency = {
   .maneuvers = EMERGENCY_PATH,
   .index = 0, .next = 0
 };
 
-status_t status = {"", 50000, 0};
 
+status_t status = {
+  .message = "",
+  .period = 50000,
+  .next = 0
+};
+
+// Raspberry Pi Pico has two cores; below, core 0 setup and loop
 void setup() {
   ioSetup();
   uartSetup();
@@ -86,12 +95,13 @@ void setup() {
 }
 
 void loop(){
-  uartLoop();
-  statusLoop();
-  autonomousLoop();
-  //sensorLoop();
+  uartLoop();                   //checks incoming commands from either serial or USB
+  statusLoop();                 //reports the robot status
+  autonomousLoop();             //handles the autonomous path if enabled
 }
 
+
+// and below, core 1 setup and loop (yes, it's easy as that)
 void setup1() {
   initializeMotor(&engine);
   initializeMotor(&steering);
@@ -100,7 +110,7 @@ void setup1() {
 }
 
 void loop1(){
-  motorLoop();
+  motorLoop();                  //runs the motors if they are required to move
 }
 
 

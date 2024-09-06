@@ -41,7 +41,7 @@ void setResolution(int resolution){
 }
 
 
-void setDirection(stepper_t *motor, int direction){
+void setDirection(nema_t *motor, int direction){
   setMotors((direction != 0)? ENABLED : DISABLED);
   motor->step.direction = direction;
   digitalWrite(motor->pins[DIR], (direction > 0)? 1 : 0); 
@@ -54,7 +54,7 @@ void setDirection(unipolar_t *motor, int direction){
 }
 
 
-void setTargetPeriod(stepper_t *motor, long period){
+void setTargetPeriod(nema_t *motor, long period){
   if(!period){
     motor->target.period = 0;
     return;
@@ -83,7 +83,7 @@ void setTargetStep(unipolar_t *motor, long target){
 }
 
 
-void initializeMotor(stepper_t *motor){
+void initializeMotor(nema_t *motor){
   pinMode(motor->pins[STEP], OUTPUT);
   pinMode(motor->pins[DIR], OUTPUT);
   setResolution(RES);
@@ -99,7 +99,7 @@ void initializeMotor(unipolar_t *motor){
 }
 
 
-bool accelerate(stepper_t *motor){  
+bool accelerate(nema_t *motor){  
   if(!motor->target.period){
     motor->step.period.current += motor->step.period.delta;
     return (motor->step.period.current < motor->step.period.max);
@@ -113,7 +113,7 @@ bool accelerate(stepper_t *motor){
 }
 
 
-void run(stepper_t  *motor, unsigned long now){
+void run(nema_t  *motor, unsigned long now){
   if(now < motor->step.period.next) return;
   motor->step.period.next += motor->step.period.current;
   if(!motor->step.direction) return;

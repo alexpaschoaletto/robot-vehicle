@@ -934,7 +934,7 @@ void sendIcon(WiFiClient web){
 }
 
 
-String parse(String m){                                      // separa o conteúdo da mensagem até o primeiro /n
+String parse(String m){                                      // gets the first line of the message (until a /n is detected)
   int l = m.length();
   String message = "";
   for(int a=0; a < l; a++){

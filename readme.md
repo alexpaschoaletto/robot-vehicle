@@ -12,9 +12,9 @@ commanding microcontrollers and support for gamepads.
 It is a vehicle controlled over a local network. The following features are supported:
 - real-time control and update of the vehicle state (speed, steering angle, vehicle status);
 - gamepad support for the vehicle control (gamepad must be compatible with the browser);
-- autonomous mode - the robot switches to a pre-defined sequence of movements.
-- follower mode - the robot follows another vehicle connnected on the same network.
-- emergency mode - the robot halts the operation with an emergency maneuver.
+- autonomous mode: the robot switches to a pre-defined sequence of movements;
+- follower mode: the robot follows another vehicle connnected on the same network; and
+- emergency mode: the robot halts the operation with an emergency maneuver.
 
 ## The vehicle
 
@@ -43,4 +43,5 @@ own changes and improvements and share your results with me if you wish!
 
 ## Get in touch
 
-You can find me on [LinkedIn](https://www.linkedin.com/in/alexpaschoaletto/).
+If you have questions or would like to contribute to this projet, feel free to 
+send me a message on [LinkedIn](https://www.linkedin.com/in/alexpaschoaletto/)!
